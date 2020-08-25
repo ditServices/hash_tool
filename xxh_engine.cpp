@@ -8,11 +8,11 @@
 int xxh_engine::calculate_xxh(FileHandler e) {
     size_t const bufferSize = 512;
     void * const buffer = malloc(bufferSize);
-    if(buffer == nullptr) throw(GeneralError());
+    if(buffer == nullptr) throw(GeneralError("File Error\n"));
 
     XXH64_state_t* const state = XXH64_createState();
     XXH64_hash_t const seed = 0;
-    if(XXH64_reset(state, seed)) throw(xxhError());
+    if(XXH64_reset(state, seed)) throw(xxhError("XXHASH Error\n"));
 
     FILE *src = fopen(e.get_path().c_str(), "rb");
     if(!src) throw(FileError());

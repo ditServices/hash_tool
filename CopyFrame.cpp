@@ -85,18 +85,22 @@ void CopyFrame::Calculate(wxCommandEvent &event) {
         catch(GeneralError& e) {
             wxMessageBox("Memory Error",
                          "Hash Tool", wxOK | wxICON_ERROR);
+            std::cout << e.what() << std::endl;
         }
         catch (FileError& e) {
             wxMessageBox("File Error",
                          "Hash Tool", wxOK | wxICON_ERROR);
+            std::cout << e.what() << std::endl;
         }
         catch (xxhError& e) {
             wxMessageBox("xxHash Error",
                          "Hash Tool", wxOK | wxICON_ERROR);
+            std::cout << e.what() << std::endl;
         }
         catch (md5Error& e) {
             wxMessageBox("MD5 Error",
                          "Hash Tool", wxOK | wxICON_ERROR);
+            std::cout << e.what() << std::endl;
         }
 
         wxString digest;
