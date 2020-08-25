@@ -12,11 +12,13 @@ public:
     FileHandler();
     FileHandler(std::filesystem::path source_file);
     std::filesystem::path get_path();
+    int check_path();
     std::filesystem::path get_filename();
     [[nodiscard]] int get_file_size() const;
 protected:
     std::filesystem::path source_path;
     int size = 0;
+    int OK = 1;
 };
 
 

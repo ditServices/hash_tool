@@ -77,17 +77,40 @@ void CopyFrame::Calculate(wxCommandEvent &event) {
     md5_engine engine;
     xxh_engine xxh_engine;
 
-    engine.calculate_md5(source_file);
-    xxh_engine.calculate_xxh(source_file);
+    if(source_file.check_path() == 0) {
+        try {
+            xxh_engine.calculate_xxh(source_file);
+            engine.calculate_md5(source_file);
+        }
+        catch(GeneralError& e) {
+            wxMessageBox("Memory Error",
+                         "Hash Tool", wxOK | wxICON_ERROR);
+        }
+        catch (FileError& e) {
+            wxMessageBox("File Error",
+                         "Hash Tool", wxOK | wxICON_ERROR);
+        }
+        catch (xxhError& e) {
+            wxMessageBox("xxHash Error",
+                         "Hash Tool", wxOK | wxICON_ERROR);
+        }
+        catch (md5Error& e) {
+            wxMessageBox("MD5 Error",
+                         "Hash Tool", wxOK | wxICON_ERROR);
+        }
 
-    wxString digest;
-    for(int i = 0; i < MD5_DIGEST_LENGTH; i++) {
-       digest.Append(wxString::Format(wxT("%02x"), engine.final[i]));
+        wxString digest;
+        for (int i = 0; i < MD5_DIGEST_LENGTH; i++) {
+            digest.Append(wxString::Format(wxT("%02x"), engine.final[i]));
+        }
+
+        wxString xxhash_digest = wxString::Format(wxT("%llx"), xxh_engine.digest);
+        this->md5_label->SetLabel("MD5: " + digest);
+        this->xxhashLabel->SetLabel("xxHash: " + xxhash_digest);
+    } else {
+        wxMessageBox("Please select a source file",
+                     "Hash Tool", wxOK | wxICON_ERROR);
     }
-
-    wxString xxhash_digest = wxString::Format(wxT("%llx"), xxh_engine.digest);
-    this->md5_label->SetLabel("MD5: " + digest);
-    this->xxhashLabel->SetLabel("xxHash: " + xxhash_digest);
 }
 
 void CopyFrame::OnClearForm(wxCommandEvent &event) {

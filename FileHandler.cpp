@@ -15,6 +15,7 @@ FileHandler::FileHandler(fs::path source_file) {
    } else {
        throw GeneralError("Error Directory Selected\n");
    }
+   this->OK = 0;
 }
 
 std::filesystem::path FileHandler::get_path() {
@@ -27,4 +28,8 @@ std::filesystem::path FileHandler::get_filename() {
 
 int FileHandler::get_file_size() const {
     return this->size;
+}
+
+int FileHandler::check_path() {
+    return this->OK;
 }

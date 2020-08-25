@@ -11,4 +11,15 @@ class GeneralError : public ErrorHandler {
     using ErrorHandler::ErrorHandler;
 };
 
+class md5Error : public ErrorHandler {
+    using  ErrorHandler::ErrorHandler;
+};
+
+class xxhError : public ErrorHandler {
+    using ErrorHandler::ErrorHandler;
+};
+
+class FileError : public ErrorHandler {
+    using ErrorHandler::ErrorHandler;
+};
 #endif //COPY_TOOL_COPYTOOL_ERRORS_H

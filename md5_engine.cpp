@@ -8,20 +8,23 @@
 
 int md5_engine::calculate_md5(FileHandler e) {
     FILE *src;
-    char buf[512];
+    ssize_t BUFFERSIZE = 512;
+    char buf[BUFFERSIZE];
     ssize_t bytes = 0;
 
     src = fopen(e.get_path().c_str(), "rb");
-    if(!src) return -1;
+    if (!src) throw (FileError());
 
     MD5_CTX c;
     MD5_Init(&c);
 
-    while ((bytes = fread(buf, 1, 512, src)) != 0) {
+    while ((bytes = fread(buf, 1, BUFFERSIZE, src)) != 0) {
+        if (bytes == 0) throw (md5Error());
         MD5_Update(&c, buf, bytes);
     }
 
     MD5_Final(this->final, &c);
     fclose(src);
+
     return 0;
 }
